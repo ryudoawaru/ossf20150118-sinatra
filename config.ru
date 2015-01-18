@@ -1,4 +1,8 @@
+require 'bundler'
+Bundle.setup
+Bundle.require
 require './framework'
+
 
 class MyApp < Framework
  
