@@ -1,7 +1,7 @@
 require 'bundler'
 Bundler.setup
 Bundler.require
-require './img_list'
+require './auth_app'
 
 
-run ImgList
+run AuthApp
