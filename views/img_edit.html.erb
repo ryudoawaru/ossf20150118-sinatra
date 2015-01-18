@@ -1,0 +1,5 @@
+<form action="/imgs/<%=@img[:id]%>" method="POST">
+  <input name="_method" type="hidden" value="PUT" />
+  <input type="text" name="title" value="<%=@img[:title]%>" />
+  <input type="submit" value="SAVE"/>
+</form>

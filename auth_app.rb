@@ -1,6 +1,8 @@
 class AuthApp < Sinatra::Base
   configure do
     enable :sessions
+    enable :method_override
+    enable :raise_errors
     set :session_secret, "nljksadlkasjdaskjd;lasdjlkasjdklasjdals;hdasdhsdas;hdyqudqwudajs"
 
     logger = Log4r::Logger.new "app"
@@ -33,6 +35,10 @@ class AuthApp < Sinatra::Base
     }
   ]
 
+  not_found do
+    "NOT FOUND"
+  end
+
   helpers do
     def logger
       @logger ||= Log4r::Logger['app']
@@ -44,22 +50,37 @@ class AuthApp < Sinatra::Base
     @current_user = session[:current_user]
   end
 
+  before '/imgs/:id*' do
+    Images.each do |img|
+      if img[:id].to_i == params[:id].to_i
+        @img = img
+        break
+      end
+    end
+    if @img.nil?
+      raise 'Test Error'
+    end
+  end
+
   get '/imgs' do
     erb :'index.html'
   end
 
+  get '/imgs/:id/edit' do
+    erb :'img_edit.html'
+  end
+
+  put '/imgs/:id' do
+    "IMG #{@img[:id]} has been updated"
+  end
+
   #GET /imgs/1.json /imgs/1.html /imgs/1
   get '/imgs/:id.?:format?' do |imgid, format|
-    Images.each do |img|
-      if img[:id].to_i == imgid.to_i
-        if format == 'json'
-          content_type 'text/json'
-          return img.to_json
-        else #html
-          @img = img
-          return erb(:"show.html")
-        end
-      end
+    if format == 'json'
+      content_type 'text/json'
+      return @img.to_json
+    else #html
+      return erb(:"show.html")
     end
   end
 
