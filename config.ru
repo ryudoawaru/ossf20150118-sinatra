@@ -1,12 +1,12 @@
 require './framework'
 
 class MyApp < Framework
-  
-  get '/' do
-    'You are in root path.'
+ 
+  get /\/books\/(\d+?)$/ do |id|
+    "This is book id: #{id}"
   end
   
-  get '/hello' do
+  get /\/hello/ do
     'Hello'
   end
   
