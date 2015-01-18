@@ -2,6 +2,13 @@ class AuthApp < Sinatra::Base
   configure do
     enable :sessions
     set :session_secret, "nljksadlkasjdaskjd;lasdjlkasjdklasjdals;hdasdhsdas;hdyqudqwudajs"
+
+    logger = Log4r::Logger.new "app"
+    logger.outputters << Log4r::Outputter.stderr
+    file_logger = Log4r::FileOutputter.new('logtest', filename: 'development.log')
+    #file_logger.formatter = Log4r::PatternFormatter.new(pattern: ' [%1] %d :: %m ')
+    logger.outputters << file_logger
+
   end
 
   Users = [
@@ -24,7 +31,14 @@ class AuthApp < Sinatra::Base
     }
   ]
 
+  helpers do
+    def logger
+      @logger ||= Log4r::Logger['app']
+    end
+  end
+
   before do
+    logger.info "#### BEFORE BLOCK########"
     @current_user = session[:current_user]
   end
 
