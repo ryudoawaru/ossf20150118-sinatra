@@ -6,7 +6,6 @@ class AuthApp < Sinatra::Base
     logger = Log4r::Logger.new "app"
     logger.outputters << Log4r::Outputter.stderr
     file_logger = Log4r::FileOutputter.new('logtest', filename: 'development.log')
-    #file_logger.formatter = Log4r::PatternFormatter.new(pattern: ' [%1] %d :: %m ')
     logger.outputters << file_logger
 
   end
@@ -23,11 +22,14 @@ class AuthApp < Sinatra::Base
 
   Images = [
     {
+      id: 1,
       url: 'http://i.imgur.com/LIPAV4D.jpg', title: 'The incredible paintings of Rob Gonsalves 1'},
     {
+        id: 2,
      url: 'http://i.imgur.com/y40a93x.jpg', title: 'Image2'},
     {
-      url: 'http://i.imgur.com/hswP6Mz.png', title: 'A moment of silence'
+       id:3,
+    url: 'http://i.imgur.com/hswP6Mz.png', title: 'A moment of silence'
     }
   ]
 
@@ -42,14 +44,23 @@ class AuthApp < Sinatra::Base
     @current_user = session[:current_user]
   end
 
-  before '/imgs' do
-    unless session[:current_user]
-      halt 'Not authorized'
-    end
-  end
-
   get '/imgs' do
     erb :'index.html'
+  end
+
+  #GET /imgs/1.json /imgs/1.html /imgs/1
+  get '/imgs/:id.?:format?' do |imgid, format|
+    Images.each do |img|
+      if img[:id].to_i == imgid.to_i
+        if format == 'json'
+          content_type 'text/json'
+          return img.to_json
+        else #html
+          @img = img
+          return erb(:"show.html")
+        end
+      end
+    end
   end
 
   get '/login' do
