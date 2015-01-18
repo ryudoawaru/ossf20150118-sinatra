@@ -1,2 +1,1 @@
-gem 'tilt'
-gem 'rack'
+gem 'sinatra'

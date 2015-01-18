@@ -1,19 +1,14 @@
 require 'bundler'
 Bundler.setup
 Bundler.require
-require './framework'
 
 
-class MyApp < Framework
- 
-  get /\/books\/(\d+?)$/ do |id|
-    render 'show.html', layout_path: 'views/layout2.erb', locals: {id: id}
-  end
-  
-  get /\/hello/ do
+class MyApp < Sinatra::Base
+
+  get '/' do
     'Hello'
   end
-  
+
 
 end
 
