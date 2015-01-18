@@ -1,6 +1,13 @@
 class Framework
   @@routes = {}
   class << self
+    def params
+      @@params
+    end
+
+    def request
+      @@request
+    end
     def find_route_and_execute(env)
       path = env['PATH_INFO']
       @@routes.each do |path_exp, code_block|
@@ -17,8 +24,8 @@ class Framework
     end
     
     def call(env)
-      req = Rack::Request.new(env)
-      p req.host
+      @@request = Rack::Request.new(env)
+      @@params = @@request.params
       [200,
         {"Content-Type" => "text/html"},
         [find_route_and_execute(env)]

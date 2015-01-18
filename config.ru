@@ -3,7 +3,8 @@ require './framework'
 class MyApp < Framework
  
   get /\/books\/(\d+?)$/ do |id|
-    "This is book id: #{id}"
+    p request
+    "This is book id: #{id}, foo = #{params['foo']}"
   end
   
   get /\/hello/ do
