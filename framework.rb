@@ -8,6 +8,13 @@ class Framework
     def request
       @@request
     end
+
+    # render('index, foo: "bar")
+    def render(view_path, locals_hash = {})
+      template_path = File.join("views", "#{view_path}.erb")
+      Tilt::ERBTemplate.new(template_path).render(self, locals_hash)
+    end
+
     def find_route_and_execute(env)
       path = env['PATH_INFO']
       @@routes.each do |path_exp, code_block|

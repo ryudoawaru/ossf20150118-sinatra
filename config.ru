@@ -1,14 +1,13 @@
 require 'bundler'
-Bundle.setup
-Bundle.require
+Bundler.setup
+Bundler.require
 require './framework'
 
 
 class MyApp < Framework
  
   get /\/books\/(\d+?)$/ do |id|
-    p request
-    "This is book id: #{id}, foo = #{params['foo']}"
+    render 'show.html', id: id
   end
   
   get /\/hello/ do
