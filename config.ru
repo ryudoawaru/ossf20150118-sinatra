@@ -1,13 +1,16 @@
-class RackApp
-  def call(env)
-    [
-      200,
-      {"Content-Type" => "text/html"},
-      [
-        'hello'
-        ]
-      ]
+require './framework'
+
+class MyApp < Framework
+  
+  get '/' do
+    'You are in root path.'
   end
+  
+  get '/hello' do
+    'Hello'
+  end
+  
+
 end
 
-run RackApp.new
+run MyApp
