@@ -1,0 +1,7 @@
+<ul>
+  <%Images.each do |img|%>
+  <li>Title：<%=img[:title]%><BR/>
+    <img src="<%=img[:url]%>" width="400"/>
+  </li>
+  <%end%>
+</ul>
