@@ -14,9 +14,9 @@ class ImgList < Sinatra::Base
     erb :'index.html'
   end
 
-  get '/imgs/:id' do
+  get '/imgs/:id' do |imgid|
     Images.each do |id, img|
-      if id.to_i == params[:id].to_i
+      if id.to_i == imgid.to_i
         @img = img
         break
       end
