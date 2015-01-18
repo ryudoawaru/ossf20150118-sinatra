@@ -4,6 +4,9 @@
   <title>Album</title>
 </head>
 <body>
+<%if session[:current_user]%>
+  <span>Hello：<%=session[:current_user][:email]%></span>
+<%end%>
 
 <%= yield %>
 
